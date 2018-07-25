@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Button,
-  ButtonToolbar,
-  Panel,
-  Label,
-  Glyphicon
-} from 'react-bootstrap'
+import { Button, ButtonToolbar, Panel, Label } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 export default class PostItem extends Component {
@@ -24,9 +18,6 @@ export default class PostItem extends Component {
         <ButtonToolbar>
           <Button bsSize='small'>
             <Link to='/PostDetail'>Read Post</Link>
-          </Button>
-          <Button bsSize='small'>
-            <Glyphicon glyph='star' /> Star
           </Button>
         </ButtonToolbar>
       </div>

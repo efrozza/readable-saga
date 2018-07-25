@@ -19,9 +19,8 @@ export default class PostDetail extends Component {
           <Panel bsStyle='primary'>
             <Panel.Heading>
               <Panel.Title componentClass='h3'>
-                DD/MM/AAAA - Titulo do Post
+                DD/MM/AAAA - Titulo do Post - <PostScore />
               </Panel.Title>
-              <PostScore />
             </Panel.Heading>
             <Panel.Body>
               <p>
@@ -90,7 +89,7 @@ export default class PostDetail extends Component {
                 <Link to='/PostDetail'>Delete</Link>
               </Button>
               <Button bsSize='small'>
-                <Glyphicon glyph='star' /> Star
+                <Glyphicon glyph='star' /> Like
               </Button>
             </ButtonToolbar>
           </p>

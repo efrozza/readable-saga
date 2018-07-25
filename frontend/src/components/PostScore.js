@@ -3,6 +3,6 @@ import { Badge } from 'react-bootstrap'
 
 export default class PostScore extends Component {
   render () {
-    return <Badge>42</Badge>
+    return <Badge>votes: 42</Badge>
   }
 }

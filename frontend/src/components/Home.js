@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CategoryList from './CategoryList'
-import { PageHeader, Grid, Row, Col, Image, Button } from 'react-bootstrap'
+import { PageHeader, Grid } from 'react-bootstrap'
 import '../css/Home.css'
 
 class Home extends Component {

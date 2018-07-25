@@ -15,7 +15,7 @@ export default class CommentItem extends Component {
         <Panel bsStyle='success'>
           <Panel.Heading>
             <Panel.Title componentClass='h3'>
-              25/07/2018 - João da Silva - <Badge>42</Badge>
+              25/07/2018 - João da Silva - <Badge>votes: 42</Badge>
             </Panel.Title>
           </Panel.Heading>
           <Panel.Body> Comentário bla bla bla bla</Panel.Body>
@@ -28,7 +28,7 @@ export default class CommentItem extends Component {
                 <Link to='/PostDetail'>Delete</Link>
               </Button>
               <Button bsSize='small'>
-                <Glyphicon glyph='star' /> Star
+                <Glyphicon glyph='star' /> Like
               </Button>
             </ButtonToolbar>
           </Panel.Body>
