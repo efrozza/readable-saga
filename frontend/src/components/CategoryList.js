@@ -9,10 +9,29 @@ import {
   ButtonToolbar,
   Label
 } from 'react-bootstrap'
+
 import { Link } from 'react-router-dom'
-import Post from './Post'
+import PostItem from './PostItem'
+import * as ReadAPI from '../utils/api-utils'
 
 export default class CategoryList extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      categories: []
+    }
+  }
+
+  componentDidMount () {
+    ReadAPI.getAllCategories()
+      .then(categories => {
+        this.setState({ categories })
+        console.log(categories)
+      })
+      .catch('Erro no acesso a API')
+  }
+
   render () {
     return (
       <div>
@@ -26,21 +45,20 @@ export default class CategoryList extends Component {
             </Col>
             <Col sm={8}>
               <Tab.Content animation>
+                <ButtonToolbar>
+                  <Link to='/NewPost'>
+                    <Button bsSize='large'>New Post</Button>
+                  </Link>
+                </ButtonToolbar>
                 <Tab.Pane eventKey='1'>
-                  <ButtonToolbar>
-                    <Link to='/NewPost'>
-                      <Button bsSize='large'>New Post</Button>
-                    </Link>
-                  </ButtonToolbar>
                   <p />
                   <div>
                     <Label bsStyle='default'>Total posts: 42 </Label>
                   </div>
                   <p />
-                  <Post />
+                  <PostItem />
                   <hr />
                 </Tab.Pane>
-                <Tab.Pane eventKey='2'>Posts da categoria Dois</Tab.Pane>
               </Tab.Content>
             </Col>
           </Row>

@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { Button, ButtonToolbar, Panel } from 'react-bootstrap'
+import {
+  Button,
+  ButtonToolbar,
+  Panel,
+  Label,
+  Glyphicon
+} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-export default class Post extends Component {
+export default class PostItem extends Component {
   render () {
     return (
       <div>
@@ -11,16 +17,16 @@ export default class Post extends Component {
           <Panel.Body>
             <Link to='/PostDetail'>Title: Título do post</Link>
           </Panel.Body>
+          <Panel.Body>
+            Coments:<Label bsStyle='default'>42</Label>
+          </Panel.Body>
         </Panel>
         <ButtonToolbar>
-          <Button bsStyle='primary' bsSize='small'>
-            Reply
+          <Button bsSize='small'>
+            <Link to='/PostDetail'>Read Post</Link>
           </Button>
-          <Button bsStyle='warning' bsSize='small'>
-            Edit
-          </Button>
-          <Button bsStyle='danger' bsSize='small'>
-            Delete
+          <Button bsSize='small'>
+            <Glyphicon glyph='star' /> Star
           </Button>
         </ButtonToolbar>
       </div>

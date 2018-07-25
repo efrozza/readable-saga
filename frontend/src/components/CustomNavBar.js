@@ -14,11 +14,11 @@ export default class CustomNavBar extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <NavItem eventKey={1} componentClass={Link} to='/'>
-              Posts
+            <NavItem eventKey={1}>
+              <Link to='/NewPost'>New Posts</Link>
             </NavItem>
-            <NavItem eventKey={2} componentClass={Link} to='/comments'>
-              About
+            <NavItem eventKey={2}>
+              <Link to='/About'>About</Link>
             </NavItem>
           </Nav>
         </Navbar.Collapse>

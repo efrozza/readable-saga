@@ -28,6 +28,23 @@ export default class NewPost extends Component {
     return (
       <div>
         <Grid>
+          <div>
+            <h1>ADD A POST</h1>
+          </div>
+          <FormGroup controlId='formControlsSelect'>
+            <ControlLabel>CATEGORY</ControlLabel>
+            <FormControl componentClass='select' placeholder='select'>
+              <option value='select'>Select..</option>
+              <option value='other'>Categoria 1 </option>
+              <option value='other'>Categoria 2</option>
+            </FormControl>
+          </FormGroup>
+          <FieldGroup
+            id='formControlsText'
+            type='text'
+            label='AUTHOR'
+            placeholder='Enter subject'
+          />
           <FieldGroup
             id='formControlsText'
             type='text'
