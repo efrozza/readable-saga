@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Grid,
-  Badge,
-  Glyphicon,
-  Panel,
-  Button,
-  ButtonToolbar
-} from 'react-bootstrap'
+import { Grid, Glyphicon, Panel, Button, ButtonToolbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import PostCommentsList from './PostCommentsList'
 import PostScore from './PostScore'
