@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CategoryList from './CategoryList'
 import {
   FormGroup,
   Grid,
@@ -10,16 +11,18 @@ import {
 
 function FieldGroup ({ id, label, help, ...props }) {
   return (
-    <FormGroup controlId={id}>
-      <ControlLabel>
-        {label}
-      </ControlLabel>
-      <FormControl {...props} />
-      {help &&
-        <HelpBlock>
-          {help}
-        </HelpBlock>}
-    </FormGroup>
+    <div>
+      <FormGroup controlId={id}>
+        <ControlLabel>
+          {label}
+        </ControlLabel>
+        <FormControl {...props} />
+        {help &&
+          <HelpBlock>
+            {help}
+          </HelpBlock>}
+      </FormGroup>
+    </div>
   )
 }
 
@@ -33,11 +36,7 @@ export default class NewPost extends Component {
           </div>
           <FormGroup controlId='formControlsSelect'>
             <ControlLabel>CATEGORY</ControlLabel>
-            <FormControl componentClass='select' placeholder='select'>
-              <option value='select'>Select..</option>
-              <option value='other'>Categoria 1 </option>
-              <option value='other'>Categoria 2</option>
-            </FormControl>
+            <CategoryList />
           </FormGroup>
           <FieldGroup
             id='formControlsText'

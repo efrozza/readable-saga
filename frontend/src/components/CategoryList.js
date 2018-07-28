@@ -1,49 +1,46 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Tab, Row, Col, Nav, NavItem } from 'react-bootstrap'
-import { listAllCategories } from '../actions/index'
-import PostsList from './PostsList'
+import { FormGroup, FormControl } from 'react-bootstrap'
+import { listAllCategories, selectCategory } from '../actions/index'
 
 class CategoryList extends Component {
-  componentDidMount () {
+  componentWillMount () {
     this.props.listAllCategories()
   }
 
   render () {
     return (
       <div>
-        <h2>Select post category</h2>
-        <Tab.Container id='left-tabs-example' defaultActiveKey='react'>
-          <Row className='clearfix'>
+        <FormGroup controlId='formControlsSelect'>
+          <FormControl componentClass='select' placeholder='select'>
+            <option value='select'>select</option>
             {this.props.categorias &&
               this.props.categorias.map(categoria => {
                 return (
-                  <Col sm={4}>
-                    <Nav bsStyle='tabs' stacked>
-                      <NavItem eventKey={categoria.name}>
-                        {categoria.name}
-                      </NavItem>
-                      <Col sm={12} width='100'>
-                        <Tab.Content animation>
-                          <Tab.Pane eventKey={categoria.name}>
-                            <PostsList />
-                          </Tab.Pane>
-                        </Tab.Content>
-                      </Col>
-                    </Nav>
-                  </Col>
+                  <option
+                    value={categoria.name}
+                    key={categoria.name}
+                    onChage={this.props.selectCategory(categoria.name)}
+                  >
+                    {categoria.name}
+                  </option>
                 )
               })}
-          </Row>
-        </Tab.Container>
+          </FormControl>
+        </FormGroup>
       </div>
     )
   }
 }
 
 function mapStateToProps (state) {
-  console.log('state' + state.categories.allCategories)
-  return { categorias: state.categories.allCategories }
+  // atraves dessa função mapeamos o state para props que o componentes pode acessar
+  // os states são criados pelos reducers
+  return {
+    categorias: state.categories.allCategories
+  }
 }
 
-export default connect(mapStateToProps, { listAllCategories })(CategoryList)
+export default connect(mapStateToProps, { listAllCategories, selectCategory })(
+  CategoryList
+)

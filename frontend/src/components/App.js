@@ -14,9 +14,9 @@ class App extends Component {
         <div>
           <NavBar />
           <Route exact path='/' component={Home} />
-          <Route path='/NewPost' component={NewPost} />
-          <Route path='/PostDetail' component={PostDetail} />
-          <Route path='/About' component={About} />
+          <Route path='/newpost' component={NewPost} />
+          <Route path='/postdetail' component={PostDetail} />
+          <Route path='/about' component={About} />
         </div>
       </Router>
     )

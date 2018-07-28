@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
 
 export default class CustomNavBar extends Component {
   render () {
     return (
       <Navbar default collapseOnSelect>
         <Navbar.Header>
-          <Navbar.Brand>
-            <Link to='/'>Readable app </Link>
-          </Navbar.Brand>
+          <LinkContainer to='/'>
+            <Navbar.Brand>Readable app</Navbar.Brand>
+          </LinkContainer>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>
-            <NavItem eventKey={1}>
-              <Link to='/NewPost'>New Posts</Link>
-            </NavItem>
-            <NavItem eventKey={2}>
-              <Link to='/About'>About</Link>
-            </NavItem>
+            <LinkContainer to='/NewPost'>
+              <NavItem eventKey={1}>New Posts</NavItem>
+            </LinkContainer>
+            <LinkContainer to='/About'>
+              <NavItem eventKey={2}>About</NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
