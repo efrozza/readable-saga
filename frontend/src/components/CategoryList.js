@@ -2,45 +2,50 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormGroup, FormControl } from 'react-bootstrap'
 import { listAllCategories, selectCategory } from '../actions/index'
+import PostsList from './PostsList'
 
 class CategoryList extends Component {
-  componentWillMount () {
-    this.props.listAllCategories()
+  componentDidMount () {
+    this.props.listCategories()
   }
 
   render () {
     return (
       <div>
         <FormGroup controlId='formControlsSelect'>
-          <FormControl componentClass='select' placeholder='select'>
+          <FormControl
+            componentClass='select'
+            placeholder='select'
+            onChange={event => this.props.selectCategory(event.target.value)}
+          >
             <option value='select'>select</option>
             {this.props.categorias &&
               this.props.categorias.map(categoria => {
                 return (
-                  <option
-                    value={categoria.name}
-                    key={categoria.name}
-                    onChage={this.props.selectCategory(categoria.name)}
-                  >
+                  <option value={categoria.name} key={categoria.name}>
                     {categoria.name}
                   </option>
                 )
               })}
           </FormControl>
         </FormGroup>
+        <PostsList />
       </div>
     )
   }
 }
 
 function mapStateToProps (state) {
-  // atraves dessa função mapeamos o state para props que o componentes pode acessar
-  // os states são criados pelos reducers
   return {
-    categorias: state.categories.allCategories
+    categorias: state.categories.categories,
+    selectedCategory: state.selectedCategory.selectCategory
   }
 }
 
-export default connect(mapStateToProps, { listAllCategories, selectCategory })(
-  CategoryList
-)
+function mapDispatchToProps (dispatch) {
+  return {
+    listCategories: data => dispatch(listAllCategories(data)),
+    selectCategory: data => dispatch(selectCategory(data))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

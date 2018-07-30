@@ -5,8 +5,11 @@ import { Table } from 'react-bootstrap'
 
 class PostsList extends Component {
   componentDidMount () {
-    console.log('categoria selecionada:' + this.props.selectedCategory)
-    this.props.listAllPosts()
+    console.log('acessou PostList' + this.props.selectedCategory)
+    if (this.props.selectedCategory === '') this.props.listPosts()
+    else {
+      this.props.postCategory(this.props.selectedCategory)
+    }
   }
 
   render () {
@@ -48,6 +51,7 @@ class PostsList extends Component {
               )
             })}
         </Table>
+        {console.log('testando mapStateToProps' + this.props.categorias.length)}
       </div>
     )
   }
@@ -57,10 +61,15 @@ function mapStateToProps (state) {
   return {
     post: state.posts.allPosts,
     postCategory: state.postsCategory.postsCategory,
-    selectedCategory: state.categories.selectedCategory
+    selectedCategory: state.selectedCategory.selectedCategory,
+    categorias: state.categories.categories
   }
 }
 
-export default connect(mapStateToProps, { listAllPosts, listPostsCategory })(
-  PostsList
-)
+function mapDispatchToProps (dispatch) {
+  return {
+    listPosts: data => dispatch(listAllPosts(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
