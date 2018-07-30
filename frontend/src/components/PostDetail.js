@@ -27,22 +27,22 @@ export default class PostDetail extends Component {
               {post.author}
             </Panel.Body>
           </Panel>
-          <p>
-            <ButtonToolbar>
-              <Button bsSize='small'>
-                <Link to='/'>Edit</Link>
-              </Button>
-              <Button bsSize='small'>
-                <Link to='/'>Delete</Link>
-              </Button>
-              <Button bsSize='small'>
-                <Glyphicon /> Up Vote
-              </Button>
-              <Button bsSize='small'>
-                <Glyphicon /> Down Vote
-              </Button>
-            </ButtonToolbar>
-          </p>
+
+          <ButtonToolbar>
+            <Button bsSize='small'>
+              <Link to='/'>Edit</Link>
+            </Button>
+            <Button bsSize='small'>
+              <Link to='/'>Delete</Link>
+            </Button>
+            <Button bsSize='small'>
+              <Glyphicon /> Up Vote
+            </Button>
+            <Button bsSize='small'>
+              <Glyphicon /> Down Vote
+            </Button>
+          </ButtonToolbar>
+
           <PostCommentsList />
         </Grid>
       </div>

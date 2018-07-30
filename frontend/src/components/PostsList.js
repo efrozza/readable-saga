@@ -21,7 +21,13 @@ class PostsList extends Component {
       this.props.selectedCategory !== '' &&
       this.props.selectedCategory !== '#'
     ) {
-      displayposts = this.props.postsCategory
+      console.log('dados post category ' + this.props.postsCategory)
+      console.log('dados all post ' + this.props.allPosts)
+
+      const dadosPost = this.props.postsCategory.map(item =>
+        this.props.allPosts.find(postObj => postObj.id === item)
+      )
+      displayposts = dadosPost
     } else {
       displayposts = this.props.allPosts
     }
