@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { listAllPosts, listPostsCategory } from '../actions/index'
+import {
+  listAllPosts,
+  listPostsCategory,
+  selectedPost
+} from '../actions/post_actions'
+
 import { Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 class PostsList extends Component {
   componentDidMount () {
-    console.log('acessou PostList' + this.props.selectedCategory)
-    if (this.props.selectedCategory === '') this.props.listPosts()
-    else {
-      this.props.postCategory(this.props.selectedCategory)
-    }
+    this.props.listPosts()
   }
 
   render () {
+    let displayposts = []
+
+    if (
+      this.props.selectedCategory !== '' &&
+      this.props.selectedCategory !== '#'
+    ) {
+      displayposts = this.props.postsCategory
+    } else {
+      displayposts = this.props.allPosts
+    }
+
     return (
       <div>
         <h2>Posts:</h2>
@@ -24,10 +37,11 @@ class PostsList extends Component {
               <th>Author</th>
               <th>Likes</th>
               <th>Comment Count</th>
+              <th>Select Post</th>
             </tr>
           </thead>
-          {this.props.post &&
-            this.props.post.map(post => {
+          {displayposts &&
+            displayposts.map(post => {
               return (
                 <tbody key={post.title}>
                   <tr>
@@ -46,12 +60,18 @@ class PostsList extends Component {
                     <td>
                       {post.commentCount}
                     </td>
+                    <td align='center'>
+                      <Link
+                        to={{ pathname: '/PostDetail', state: { post: post } }}
+                      >
+                        Read
+                      </Link>
+                    </td>
                   </tr>
                 </tbody>
               )
             })}
         </Table>
-        {console.log('testando mapStateToProps' + this.props.categorias.length)}
       </div>
     )
   }
@@ -59,16 +79,18 @@ class PostsList extends Component {
 
 function mapStateToProps (state) {
   return {
-    post: state.posts.allPosts,
-    postCategory: state.postsCategory.postsCategory,
-    selectedCategory: state.selectedCategory.selectedCategory,
-    categorias: state.categories.categories
+    allPosts: state.posts.allPosts,
+    postsCategory: state.postsCategory.postsCategory,
+    selelectedPost: state.selectedPost.selelectedPost,
+    selectedCategory: state.selectedCategory.selectedCategory
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    listPosts: data => dispatch(listAllPosts(data))
+    listPosts: data => dispatch(listAllPosts(data)),
+    listPostsCategory: data => dispatch(listPostsCategory(data)),
+    selectedPost: data => dispatch(selectedPost(data))
   }
 }
 

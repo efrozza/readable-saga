@@ -1,4 +1,4 @@
-import { GET_ALL_CATEGORIES } from '../actions/index'
+import { GET_ALL_CATEGORIES } from '../actions/category_actions'
 
 const STATE_INICIAL = { categories: [] }
 

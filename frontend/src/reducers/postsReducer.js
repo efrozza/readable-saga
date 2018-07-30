@@ -1,4 +1,4 @@
-import { GET_ALL_POSTS } from '../actions/index'
+import { GET_ALL_POSTS } from '../actions/post_actions'
 
 const STATE_INICIAL = { allPosts: [], selectedPost: false }
 

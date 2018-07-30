@@ -1,24 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormGroup, FormControl } from 'react-bootstrap'
-import { listAllCategories, selectCategory } from '../actions/index'
-import PostsList from './PostsList'
+import { listAllCategories, selectCategory } from '../actions/category_actions'
+import { listPostsCategory } from '../actions/post_actions'
 
 class CategoryList extends Component {
   componentDidMount () {
     this.props.listCategories()
   }
 
+  handleSelectCategory (categoria) {
+    this.props.selectCategory(categoria)
+    if (this.props.filter && categoria != '#') {
+      this.props.listPostsCategory(categoria)
+    }
+  }
+
   render () {
+    console.log('renderizou CategoryList')
     return (
       <div>
         <FormGroup controlId='formControlsSelect'>
           <FormControl
             componentClass='select'
-            placeholder='select'
-            onChange={event => this.props.selectCategory(event.target.value)}
+            placeholder='select category'
+            onChange={event => this.handleSelectCategory(event.target.value)}
           >
-            <option value='select'>select</option>
+            <option value='#'>Select...</option>
             {this.props.categorias &&
               this.props.categorias.map(categoria => {
                 return (
@@ -29,7 +37,6 @@ class CategoryList extends Component {
               })}
           </FormControl>
         </FormGroup>
-        <PostsList />
       </div>
     )
   }
@@ -45,7 +52,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     listCategories: data => dispatch(listAllCategories(data)),
-    selectCategory: data => dispatch(selectCategory(data))
+    selectCategory: data => dispatch(selectCategory(data)),
+    listPostsCategory: data => dispatch(listPostsCategory(data))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)
