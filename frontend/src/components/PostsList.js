@@ -15,6 +15,7 @@ class PostsList extends Component {
   }
 
   render () {
+    console.log('dados all post ' + this.props.allPosts)
     let displayposts = []
 
     if (
@@ -68,7 +69,10 @@ class PostsList extends Component {
                     </td>
                     <td align='center'>
                       <Link
-                        to={{ pathname: '/PostDetail', state: { post: post } }}
+                        to={{
+                          pathname: '/PostDetail',
+                          state: { post: post}
+                        }}
                       >
                         Read
                       </Link>

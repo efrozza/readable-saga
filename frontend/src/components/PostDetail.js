@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Grid, Glyphicon, Panel, Button, ButtonToolbar } from 'react-bootstrap'
+import { Grid, Panel, Button, ButtonToolbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import PostCommentsList from './PostCommentsList'
 import PostScore from './PostScore'
+import { connect } from 'react-redux'
+import { votePost } from '../actions/post_actions'
 
-export default class PostDetail extends Component {
+class PostDetail extends Component {
   render () {
     const { post } = this.props.location.state
     return (
@@ -35,12 +37,17 @@ export default class PostDetail extends Component {
             <Button bsSize='small'>
               <Link to='/'>Delete</Link>
             </Button>
-            <Button bsSize='small'>
-              <Glyphicon /> Up Vote
+            <Button
+              bsSize='small'
+              onClick={e => {
+                console.log('clicou no voto ' + post.id + ' ' + e.target.value)
+                this.props.votePost(post.id, e.target.value)
+              }}
+              value='upVote'
+            >
+              upVote
             </Button>
-            <Button bsSize='small'>
-              <Glyphicon /> Down Vote
-            </Button>
+            <Button bsSize='small'>Down Vote</Button>
           </ButtonToolbar>
 
           <PostCommentsList />
@@ -49,3 +56,17 @@ export default class PostDetail extends Component {
     )
   }
 }
+
+function mapStateToProps (state) {
+  return {
+    allPosts: state.posts.allPosts
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    votePost: data => dispatch(votePost(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostDetail)

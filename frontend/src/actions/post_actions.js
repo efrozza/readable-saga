@@ -36,6 +36,7 @@ export function selectedPost (post) {
 }
 
 export function votePost (id, vote) {
+  console.log('entrou na action votePost' + id + vote)
   return dispatch =>
     ReadAPI.votePost(id, vote)
       .then(post =>
