@@ -12,14 +12,18 @@ class Home extends Component {
 
   render () {
     return (
-      <Grid>
-        <PageHeader>
-          Project Readable - Udacity React/Redux{' '}
-          <small>- Autor: Everton Frozza</small>
-        </PageHeader>
-        <CategoryList />
+      <div>
+        <Grid>
+          <PageHeader>
+            Project Readable - Udacity React/Redux{' '}
+            <small>- Autor: Everton Frozza</small>
+          </PageHeader>
+        </Grid>
+        <Grid>
+          <CategoryList estilo='list' />
+        </Grid>
         <PostsList />
-      </Grid>
+      </div>
     )
   }
 }

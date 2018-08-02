@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'react-bootstrap'
+import { Table, Button, Grid } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { votePost } from '../actions/post_actions'
 
 class PostsList extends Component {
   render () {
-    let displayposts = []
-    displayposts = this.props.posts
-
     return (
-      <div>
-        <h2>All Posts:</h2>
+      <Grid>
+        <h2 align='left'>All Posts:</h2>
         <Table striped bordered condensed hover>
           <thead>
             <tr>
@@ -20,10 +18,12 @@ class PostsList extends Component {
               <th>Likes</th>
               <th>Comment Count</th>
               <th>Select Post</th>
+              <th>Manage</th>
+              <th>Vote</th>
             </tr>
           </thead>
-          {displayposts &&
-            displayposts.map(post => {
+          {this.props.posts &&
+            this.props.posts.map(post => {
               return (
                 <tbody key={post.title}>
                   <tr>
@@ -45,27 +45,60 @@ class PostsList extends Component {
                     <td align='center'>
                       <Link
                         to={{
-                          pathname: `/${post.category}/${post.id}`,
-                          state: { post: post }
+                          pathname: `/${post.category}/${post.id}`
                         }}
                       >
                         Read
                       </Link>
+                    </td>
+                    <td>
+                      <Button bsSize='xsmall'>Edit</Button>{' '}
+                      <Button bsSize='xsmall'>Delete</Button>
+                    </td>
+                    <td>
+                      <Button
+                        bsSize='xsmall'
+                        onClick={e => {
+                          this.props.votePost(post.id, e.target.value)
+                        }}
+                        value='upVote'
+                      >
+                        upVote
+                      </Button>{' '}
+                      <Button
+                        bsSize='xsmall'
+                        onClick={e => {
+                          this.props.votePost(post.id, e.target.value)
+                        }}
+                        value='downVote'
+                      >
+                        downVote
+                      </Button>
                     </td>
                   </tr>
                 </tbody>
               )
             })}
         </Table>
-      </div>
+      </Grid>
     )
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    posts: state.posts
+function mapStateToProps (state, props) {
+  if (props && props.match) {
+    return {
+      posts: state.posts.filter(p => p.category == props.match.params.category)
+    }
+  } else {
+    return { posts: state.posts }
   }
 }
 
-export default connect(mapStateToProps)(PostsList)
+function mapDispatchToProps (dispatch) {
+  return {
+    votePost: (data, vote) => dispatch(votePost(data, vote))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsList)

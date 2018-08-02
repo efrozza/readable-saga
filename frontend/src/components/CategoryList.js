@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getCategories } from '../actions/category_actions'
 import { Link } from 'react-router-dom'
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 class CategoryList extends Component {
   componentDidMount () {
@@ -9,26 +10,40 @@ class CategoryList extends Component {
   }
 
   render () {
-    return (
-      <div>
-        {this.props.categories &&
-          this.props.categories.map(categoria => {
-            return (
-              <div>
-                <Link
-                  key={categoria.name}
-                  to={{
-                    pathname: `/${categoria.name}`,
-                    state: { category: categoria.name }
-                  }}
-                >
-                  {categoria.name}
-                </Link>
-              </div>
-            )
-          })}
-      </div>
-    )
+    switch (this.props.estilo) {
+      case 'list':
+        return (
+          <div>
+            {this.props.categories &&
+              this.props.categories.map(categoria => {
+                return (
+                  <Link to={`/${categoria.name}`} key={categoria.name}>
+                    {' '}{categoria.name}
+                    {'  | '}
+                  </Link>
+                )
+              })}
+          </div>
+        )
+      case 'combo':
+        return (
+          <div>
+            <FormGroup controlId='formControlsSelect'>
+              <ControlLabel>Select</ControlLabel>
+              <FormControl componentClass='select' placeholder='select'>
+                {this.props.categories &&
+                  this.props.categories.map(categoria => {
+                    return (
+                      <option value={categoria.name}>
+                        {categoria.name}
+                      </option>
+                    )
+                  })}
+              </FormControl>
+            </FormGroup>
+          </div>
+        )
+    }
   }
 }
 

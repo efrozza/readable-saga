@@ -6,7 +6,7 @@ import NewPost from './NewPost'
 import PostDetail from './PostDetail'
 import About from './About'
 import HeaderMenu from './CustomNavBar'
-import PostsCategory from './PostsCategory'
+import PostsList from './PostsList'
 
 const Page404 = () => <div>Página não encontrada</div>
 
@@ -21,7 +21,7 @@ class App extends Component {
             <Route exact path='/newpost' component={NewPost} />
             <Route exact path='/about' component={About} />
             <Route path='/:category/:id' component={PostDetail} />
-            <Route path='/:category/' component={PostsCategory} />
+            <Route path='/:category/' component={PostsList} />
             <Route component={Page404} />
           </Switch>
         </div>

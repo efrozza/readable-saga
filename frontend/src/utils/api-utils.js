@@ -37,3 +37,21 @@ export const votePost = (id, vote) =>
     },
     body: JSON.stringify({ option: vote })
   }).then(res => res.json())
+
+export const getAllComments = idPost =>
+  fetch(`${api}/posts/${idPost}/comments`, { method: 'GET', headers })
+    .then(res => res.json())
+    .then(data => {
+      console.log('retorno api comments ' + data + idPost)
+      return data
+    })
+
+export const voteComment = (id, vote) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ option: vote })
+  }).then(res => res.json())
