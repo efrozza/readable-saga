@@ -2,7 +2,7 @@ import * as ReadAPI from '../utils/api-utils'
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
 export const SELECTED_CATEGORY = 'SELECTED_CATEGORY'
 
-export function listAllCategories () {
+export function getCategories () {
   return dispatch =>
     ReadAPI.getAllCategories()
       .then(categories =>

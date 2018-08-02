@@ -1,15 +1,14 @@
 import * as ReadAPI from '../utils/api-utils'
-export const GET_ALL_POSTS = 'GET_ALL_POSTS'
+export const GET_POSTS = 'GET_ALL_POSTS'
 export const GET_POSTS_CATEGORY = 'GET_POSTS_CATEGORY'
-export const SELECTED_POST = 'SELECTED_POST'
 export const VOTE_POST = 'VOTE_POST'
 
-export function listAllPosts () {
+export function getPosts () {
   return dispatch =>
     ReadAPI.getAllPosts()
       .then(post =>
         dispatch({
-          type: GET_ALL_POSTS,
+          type: GET_POSTS,
           posts: post
         })
       )
@@ -28,13 +27,6 @@ export function listPostsCategory (category) {
       .catch('Erro no acesso a API POSTS')
 }
 
-export function selectedPost (post) {
-  return {
-    type: SELECTED_POST,
-    selectedPost: post
-  }
-}
-
 export function votePost (id, vote) {
   console.log('entrou na action votePost' + id + vote)
   return dispatch =>
@@ -42,7 +34,7 @@ export function votePost (id, vote) {
       .then(post =>
         dispatch({
           type: VOTE_POST,
-          voteScore: post.voteScore
+          post: post
         })
       )
       .catch('Erro no acesso a API POSTS')

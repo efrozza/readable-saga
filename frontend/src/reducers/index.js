@@ -1,18 +1,10 @@
 import { combineReducers } from 'redux'
-import CategoryReducer from './categoryReducer'
-import PostReducer from './postsReducer'
-import PostsCategoryReducer from './postsCategoryReducer'
-import SelectedCategoryReducer from './selectedCategoryReducer'
-import SelectedPostReducer from './selectedPostReducer'
-import VotePostReducer from './votePostReducer'
+import categoryReducer from './categoryReducer'
+import postReducer from './postsReducer'
 
 const rootReducer = combineReducers({
-  categories: CategoryReducer,
-  selectedCategory: SelectedCategoryReducer,
-  posts: PostReducer,
-  postsCategory: PostsCategoryReducer,
-  selectedPost: SelectedPostReducer,
-  voteScore: VotePostReducer
+  categories: categoryReducer,
+  posts: postReducer
 })
 
 export default rootReducer

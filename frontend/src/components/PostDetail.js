@@ -9,6 +9,9 @@ import { votePost } from '../actions/post_actions'
 class PostDetail extends Component {
   render () {
     const { post } = this.props.location.state
+
+    console.log('posts no postDetail' + this.props.posts)
+
     return (
       <div>
         <Grid>
@@ -59,13 +62,13 @@ class PostDetail extends Component {
 
 function mapStateToProps (state) {
   return {
-    allPosts: state.posts.allPosts
+    posts: state.posts
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    votePost: data => dispatch(votePost(data))
+    votePost: (data, vote) => dispatch(votePost(data, vote))
   }
 }
 
