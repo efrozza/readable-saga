@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table, Button } from 'react-bootstrap'
-import { voteComment } from '../actions/comment_actions'
-import { Link } from 'react-router-dom'
+import { voteComment, deleteComment } from '../actions/comment_actions'
 
 class PostCommentsList extends Component {
   render () {
@@ -60,7 +59,14 @@ class PostCommentsList extends Component {
                   </td>
                   <td>
                     <Button bsSize='xsmall'>Edit</Button>{' '}
-                    <Button bsSize='xsmall'>Delete</Button>
+                    <Button
+                      bsSize='xsmall'
+                      onClick={e => {
+                        this.props.deleteComment(comment.id, comment.parentId)
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               </tbody>
@@ -80,7 +86,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    voteComment: (id, vote) => dispatch(voteComment(id, vote))
+    voteComment: (id, vote) => dispatch(voteComment(id, vote)),
+    deleteComment: (id, parentId) => dispatch(deleteComment(id, parentId))
   }
 }
 

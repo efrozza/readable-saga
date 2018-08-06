@@ -1,6 +1,7 @@
 import * as ReadAPI from '../utils/api-utils'
 export const GET_COMMENTS = 'GET_COMMENTS'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
 
 export function getComments (idPost) {
   return dispatch =>
@@ -12,6 +13,14 @@ export function getComments (idPost) {
         })
       )
       .catch('Erro no acesso a API COMMENTS')
+}
+
+export function deleteComment (id, idPost) {
+  console.log('entrou na action deleteComment' + id)
+  return dispatch =>
+    ReadAPI.deleteComment(id)
+      .then(comment => dispatch(getComments(idPost)))
+      .catch('Erro no acesso a API DELETE COMMENT')
 }
 
 export function voteComment (id, vote) {

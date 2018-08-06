@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table, Button, Grid } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { votePost } from '../actions/post_actions'
+import { votePost, deletePost } from '../actions/post_actions'
 
 class PostsList extends Component {
   render () {
@@ -53,7 +53,14 @@ class PostsList extends Component {
                     </td>
                     <td>
                       <Button bsSize='xsmall'>Edit</Button>{' '}
-                      <Button bsSize='xsmall'>Delete</Button>
+                      <Button
+                        bsSize='xsmall'
+                        onClick={e => {
+                          this.props.deletePost(post.id)
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </td>
                     <td>
                       <Button
@@ -97,7 +104,8 @@ function mapStateToProps (state, props) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    votePost: (data, vote) => dispatch(votePost(data, vote))
+    votePost: (data, vote) => dispatch(votePost(data, vote)),
+    deletePost: id => dispatch(deletePost(id))
   }
 }
 

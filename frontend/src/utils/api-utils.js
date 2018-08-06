@@ -5,14 +5,31 @@ let token = localStorage.token
 if (!token) token = localStorage.token = Math.random().toString(36).substr(-8)
 
 const headers = {
-  Accept: 'application/json',
+  Accept: 'application/json, application/xml, text/plain, text/html, *.*',
   Authorization: token
 }
 
-export const getAllCategories = () =>
-  fetch(`${api}/categories`, { headers })
-    .then(res => res.json())
-    .then(data => data.categories)
+export const addPost = post => {
+  console.log('entrou na api utils ' + post.id, post.title)
+  return fetch(`${api}/posts`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ post: post })
+  }).then(res => res.json())
+}
+
+export const deletePost = id => {
+  return fetch(`${api}/posts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+}
 
 export const getAllPosts = () =>
   fetch(`${api}/posts`, { method: 'GET', headers })
@@ -46,6 +63,16 @@ export const getAllComments = idPost =>
       return data
     })
 
+export const deleteComment = id => {
+  return fetch(`${api}/comments/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+}
+
 export const voteComment = (id, vote) =>
   fetch(`${api}/comments/${id}`, {
     method: 'POST',
@@ -55,3 +82,8 @@ export const voteComment = (id, vote) =>
     },
     body: JSON.stringify({ option: vote })
   }).then(res => res.json())
+
+export const getAllCategories = () =>
+  fetch(`${api}/categories`, { headers })
+    .then(res => res.json())
+    .then(data => data.categories)

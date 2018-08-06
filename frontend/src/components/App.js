@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../css/App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './Home'
-import NewPost from './NewPost'
+import PostNew from './PostNew'
 import PostDetail from './PostDetail'
 import About from './About'
 import HeaderMenu from './CustomNavBar'
@@ -18,7 +18,7 @@ class App extends Component {
           <HeaderMenu />
           <Switch>
             <Route exact path='/' component={Home} />
-            <Route exact path='/newpost' component={NewPost} />
+            <Route exact path='/postnew' component={PostNew} />
             <Route exact path='/about' component={About} />
             <Route path='/:category/:id' component={PostDetail} />
             <Route path='/:category/' component={PostsList} />

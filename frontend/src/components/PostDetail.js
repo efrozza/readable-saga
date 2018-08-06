@@ -6,6 +6,7 @@ import PostScore from './PostScore'
 import { connect } from 'react-redux'
 import { votePost } from '../actions/post_actions'
 import { getComments } from '../actions/comment_actions'
+import moment from 'moment'
 
 class PostDetail extends Component {
   componentDidMount () {
@@ -22,6 +23,7 @@ class PostDetail extends Component {
           <Panel bsStyle='primary'>
             <Panel.Heading>
               <Panel.Title componentClass='h3'>
+                {moment.unix(post.timestamp).format('YYYY-MM-DD HH:mm')} -{' '}
                 {post.title} -
                 <PostScore voteScore={post.voteScore} />
               </Panel.Title>
