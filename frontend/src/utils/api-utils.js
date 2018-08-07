@@ -17,7 +17,7 @@ export const addPost = post => {
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ post: post })
+    body: JSON.stringify(post)
   }).then(res => res.json())
 }
 
@@ -62,6 +62,18 @@ export const getAllComments = idPost =>
       console.log('retorno api comments ' + data + idPost)
       return data
     })
+
+export const addComment = comment => {
+  console.log('entrou na api utils ' + comment)
+  return fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  }).then(res => res.json())
+}
 
 export const deleteComment = id => {
   return fetch(`${api}/comments/${id}`, {

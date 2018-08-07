@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { Grid, Panel, Button, ButtonToolbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import PostCommentsList from './PostCommentsList'
-import PostScore from './PostScore'
 import { connect } from 'react-redux'
 import { votePost } from '../actions/post_actions'
 import { getComments } from '../actions/comment_actions'
 import moment from 'moment'
+import PostCommentsList from './PostCommentsList'
+import PostScore from './PostScore'
+import CommentForm from './CommentForm'
 
 class PostDetail extends Component {
   componentDidMount () {
-    console.log('entrou aqui')
-    this.props.getComments('8xf0y6ziyjabvozdd253nd')
+    this.props.getComments(this.props.match.params.id)
   }
 
   render () {
@@ -19,12 +19,16 @@ class PostDetail extends Component {
 
     return (
       <div>
+        
         <Grid>
+        <div>
+          <h3>Post Detail</h3>
+        </div>
           <Panel bsStyle='primary'>
             <Panel.Heading>
               <Panel.Title componentClass='h3'>
-                {moment.unix(post.timestamp).format('YYYY-MM-DD HH:mm')} -{' '}
-                {post.title} -
+                {moment.unix(post.timestamp).format('YYYY-MM-DD HH:mm')} - {' '}
+                {post.title} - {' '}
                 <PostScore voteScore={post.voteScore} />
               </Panel.Title>
             </Panel.Heading>
@@ -32,10 +36,10 @@ class PostDetail extends Component {
               <p>
                 {post.body}
               </p>
-            </Panel.Body>
-            <Panel.Body>
+              <p>
               <strong>Author: </strong>
               {post.author}
+              </p>
             </Panel.Body>
           </Panel>
 
@@ -65,7 +69,7 @@ class PostDetail extends Component {
               downVote
             </Button>
           </ButtonToolbar>
-
+          <CommentForm parentId={this.props.match.params.id} />
           <PostCommentsList />
         </Grid>
       </div>

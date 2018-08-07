@@ -6,6 +6,7 @@ export const ADD_POST = 'ADD_POST'
 export const DELETE_POST = 'DELETE_POST'
 
 export function addPost (post) {
+  
   console.log('entrou na action addPost' + post.id + post.title + typeof post)
   return dispatch =>
     ReadAPI.addPost(post)

@@ -8,7 +8,7 @@ class PostCommentsList extends Component {
     return (
       <div>
         <p>
-          <h3>comentários</h3>
+          <h3>Comments</h3>
         </p>
         <Table striped bordered condensed hover>
           <thead>
