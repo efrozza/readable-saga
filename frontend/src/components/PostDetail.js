@@ -8,6 +8,7 @@ import moment from 'moment'
 import PostCommentsList from './PostCommentsList'
 import PostScore from './PostScore'
 import CommentForm from './CommentForm'
+import Page404 from './Page404'
 
 class PostDetail extends Component {
   componentDidMount () {
@@ -17,63 +18,65 @@ class PostDetail extends Component {
   render () {
     const post = this.props.post
 
-    return (
-      <div>
-        
-        <Grid>
+    if (post != undefined) {
+      return (
         <div>
-          <h3>Post Detail</h3>
-        </div>
-          <Panel bsStyle='primary'>
-            <Panel.Heading>
-              <Panel.Title componentClass='h3'>
-                {moment.unix(post.timestamp).format('YYYY-MM-DD HH:mm')} - {' '}
-                {post.title} - {' '}
-                <PostScore voteScore={post.voteScore} />
-              </Panel.Title>
-            </Panel.Heading>
-            <Panel.Body>
-              <p>
-                {post.body}
-              </p>
-              <p>
-              <strong>Author: </strong>
-              {post.author}
-              </p>
-            </Panel.Body>
-          </Panel>
+          <Grid>
+            <div>
+              <h3>Post Detail</h3>
+            </div>
+            <Panel bsStyle='primary'>
+              <Panel.Heading>
+                <Panel.Title componentClass='h3'>
+                  {moment.unix(post.timestamp).format('YYYY-MM-DD HH:mm')} - {' '}
+                  {post.title} - <PostScore voteScore={post.voteScore} />
+                </Panel.Title>
+              </Panel.Heading>
+              <Panel.Body>
+                <p>
+                  {post.body}
+                </p>
+                <p>
+                  <strong>Author: </strong>
+                  {post.author}
+                </p>
+              </Panel.Body>
+            </Panel>
 
-          <ButtonToolbar>
-            <Button bsSize='small'>
-              <Link to='/'>Edit</Link>
-            </Button>
-            <Button bsSize='small'>
-              <Link to='/'>Delete</Link>
-            </Button>
-            <Button
-              bsSize='small'
-              onClick={e => {
-                this.props.votePost(post.id, e.target.value)
-              }}
-              value='upVote'
-            >
-              upVote
-            </Button>
-            <Button
-              bsSize='small'
-              onClick={e => {
-                this.props.votePost(post.id, e.target.value)
-              }}
-              value='downVote'
-            >
-              downVote
-            </Button>
-          </ButtonToolbar>
-          <CommentForm parentId={this.props.match.params.id} />
-          <PostCommentsList />
-        </Grid>
-      </div>
-    )
+            <ButtonToolbar>
+              <Button bsSize='small'>
+                <Link to='/'>Edit</Link>
+              </Button>
+              <Button bsSize='small'>
+                <Link to='/'>Delete</Link>
+              </Button>
+              <Button
+                bsSize='small'
+                onClick={e => {
+                  this.props.votePost(post.id, e.target.value)
+                }}
+                value='upVote'
+              >
+                upVote
+              </Button>
+              <Button
+                bsSize='small'
+                onClick={e => {
+                  this.props.votePost(post.id, e.target.value)
+                }}
+                value='downVote'
+              >
+                downVote
+              </Button>
+            </ButtonToolbar>
+            <CommentForm parentId={this.props.match.params.id} />
+            <PostCommentsList />
+          </Grid>
+        </div>
+      )
+    } else {
+      return <Page404 />
+    }
   }
 }
 

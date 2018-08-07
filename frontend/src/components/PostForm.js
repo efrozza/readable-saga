@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { addPost } from '../actions/post_actions'
 import { connect } from 'react-redux'
 import { v4 } from 'uuid'
 import {
@@ -14,21 +13,16 @@ class PostForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      id: ' ',
-      timestamp: 0,
-      title: ' ',
-      author: ' ',
-      category: ' ',
-      body: ' '
+      id: props.post ? props.post.id : v4(),
+      timestamp: props.post ? props.post.timestamp : Date.now(),
+      title: props.post ? props.post.title : ' ',
+      author: props.post ? props.post.author : ' ',
+      category: props.post ? props.post.category : ' ',
+      body: props.post ? props.post.body : ' '
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentDidMount () {
-    this.setState({ timestamp: Date.now() })
-    this.setState({ id: v4() })
   }
 
   onSubmit (e) {
@@ -41,7 +35,7 @@ class PostForm extends Component {
       category: this.state.category,
       body: this.state.body
     }
-    this.props.addPost(post)
+    this.props.onSubmit(post)
   }
 
   onChange (e) {
@@ -117,9 +111,4 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    addPost: values => dispatch(addPost(values))
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PostForm)
+export default connect(mapStateToProps)(PostForm)

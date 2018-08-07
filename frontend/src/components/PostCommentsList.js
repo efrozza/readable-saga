@@ -7,16 +7,14 @@ class PostCommentsList extends Component {
   render () {
     return (
       <div>
-        <p>
-          <h3>Comments</h3>
-        </p>
+        <h3>Comments</h3>
+
         <Table striped bordered condensed hover>
           <thead>
             <tr>
-              <th>timestamp</th>
-              <th>author</th>
-              <th>body</th>
-              <th>voteScore</th>
+              <th>Author</th>
+              <th>Comment</th>
+              <th>Vote Score</th>
               <th>Vote</th>
               <th>Manage</th>
             </tr>
@@ -25,9 +23,6 @@ class PostCommentsList extends Component {
             return (
               <tbody key={comment.title}>
                 <tr>
-                  <td>
-                    {comment.timestamp}
-                  </td>
                   <td>
                     {comment.author}
                   </td>

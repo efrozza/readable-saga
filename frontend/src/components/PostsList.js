@@ -1,35 +1,67 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table, Button, Grid } from 'react-bootstrap'
+import {
+  Table,
+  Button,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  Grid
+} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { votePost, deletePost } from '../actions/post_actions'
+import sortBy from 'sort-by'
 
 class PostsList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      sort: 'title'
+    }
+  }
+
+  sortList (sort) {
+    this.setState({ sort })
+  }
+
   render () {
     return (
       <Grid>
-        <h2 align='left'>All Posts:</h2>
+        <h2 align='left'>All Posts</h2>
+        <p>
+          <strong>Sort By:</strong>
+          <FormGroup>
+            <FormControl
+              componentClass='select'
+              name='category'
+              onChange={event => this.sortList(event.target.value)}
+            >
+              <option value=' ' />
+              <option value='voteScore'>Vote Score</option>
+              <option value='timestamp'>Date</option>
+              <option value='title'>Title</option>
+              <option value='category'>Category</option>
+            </FormControl>
+          </FormGroup>
+        </p>
         <Table striped bordered condensed hover>
           <thead>
             <tr>
-              <th>Category</th>
               <th>Title</th>
               <th>Author</th>
-              <th>Likes</th>
               <th>Comment Count</th>
+              <th>Likes</th>
               <th>Select Post</th>
               <th>Manage</th>
               <th>Vote</th>
+              <th>Category</th>
             </tr>
           </thead>
           {this.props.posts &&
-            this.props.posts.map(post => {
+            this.props.posts.sort(sortBy(this.state.sort)).map(post => {
               return (
-                <tbody key={post.title}>
+                <tbody key={post.id}>
                   <tr>
-                    <td>
-                      {post.category}
-                    </td>
                     <td>
                       {post.title}
                     </td>
@@ -37,10 +69,10 @@ class PostsList extends Component {
                       {post.author}
                     </td>
                     <td>
-                      {post.voteScore}
+                      {post.commentCount}
                     </td>
                     <td>
-                      {post.commentCount}
+                      {post.voteScore}
                     </td>
                     <td align='center'>
                       <Link
@@ -52,7 +84,13 @@ class PostsList extends Component {
                       </Link>
                     </td>
                     <td>
-                      <Button bsSize='xsmall'>Edit</Button>{' '}
+                      <Link
+                        to={{
+                          pathname: `/edit/${post.category}/${post.id}`
+                        }}
+                      >
+                        Edit
+                      </Link>
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
@@ -81,6 +119,9 @@ class PostsList extends Component {
                       >
                         downVote
                       </Button>
+                    </td>
+                    <td>
+                      {post.category}
                     </td>
                   </tr>
                 </tbody>

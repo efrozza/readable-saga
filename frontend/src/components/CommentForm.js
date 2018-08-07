@@ -44,13 +44,13 @@ class CommentForm extends Component {
 
   render () {
     return (
-      <Grid>
+      <div align='left'>
         <div>
           <h3>Add Comment</h3>
         </div>
         <form onSubmit={this.onSubmit}>
           <FormGroup>
-            <ControlLabel>author</ControlLabel>
+            <ControlLabel>Author</ControlLabel>
             <FormControl
               placeholder='author'
               name='author'
@@ -59,7 +59,7 @@ class CommentForm extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>body</ControlLabel>
+            <ControlLabel>Comment</ControlLabel>
             <FormControl
               componentClass='textarea'
               name='body'
@@ -70,7 +70,7 @@ class CommentForm extends Component {
           </FormGroup>
           <Button type='submit'>Submit</Button>
         </form>
-      </Grid>
+      </div>
     )
   }
 }
