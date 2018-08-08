@@ -29,7 +29,7 @@ export function editPost (id, post) {
           post: newpost
         })
       )
-      .catch('Erro no acesso a API POSTS')
+      .catch('Erro no acesso a API EDIT POSTS')
 }
 
 export function deletePost (id) {

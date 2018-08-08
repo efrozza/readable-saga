@@ -16,10 +16,7 @@ export default class CustomNavBar extends Component {
           <Navbar.Collapse>
             <Nav pullRight>
               <LinkContainer to='/postnew'>
-                <NavItem eventKey={1}>New Posts</NavItem>
-              </LinkContainer>
-              <LinkContainer to='/about'>
-                <NavItem eventKey={2}>About</NavItem>
+                <NavItem eventKey={1}>New Post</NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>

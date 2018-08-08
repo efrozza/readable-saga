@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { Grid, Panel, Button, ButtonToolbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { votePost } from '../actions/post_actions'
+import { votePost, deletePost } from '../actions/post_actions'
 import { getComments } from '../actions/comment_actions'
 import moment from 'moment'
 import PostCommentsList from './PostCommentsList'
 import PostScore from './PostScore'
-import CommentForm from './CommentForm'
+import CommentAdd from './CommentAdd'
 import Page404 from './Page404'
 
 class PostDetail extends Component {
@@ -28,8 +28,8 @@ class PostDetail extends Component {
             <Panel bsStyle='primary'>
               <Panel.Heading>
                 <Panel.Title componentClass='h3'>
-                  {moment.unix(post.timestamp).format('YYYY-MM-DD HH:mm')} - {' '}
-                  {post.title} - <PostScore voteScore={post.voteScore} />
+                  {moment(post.timestamp).calendar()} - {post.title} -{' '}
+                  <PostScore voteScore={post.voteScore} />
                 </Panel.Title>
               </Panel.Heading>
               <Panel.Body>
@@ -43,24 +43,36 @@ class PostDetail extends Component {
               </Panel.Body>
             </Panel>
 
-            <ButtonToolbar>
-              <Button bsSize='small'>
-                <Link to='/'>Edit</Link>
-              </Button>
-              <Button bsSize='small'>
-                <Link to='/'>Delete</Link>
-              </Button>
+            <div>
+              <Button bsSize='xsmall'>
+                <Link
+                  to={{
+                    pathname: `/edit/${post.category}/${post.id}`
+                  }}
+                >
+                  Edit
+                </Link>
+              </Button>{' '}
               <Button
-                bsSize='small'
+                bsSize='xsmall'
+                onClick={e => {
+                  this.props.deletePost(post.id)
+                  this.props.history.push('/')
+                }}
+              >
+                Delete
+              </Button>{' '}
+              <Button
+                bsSize='xsmall'
                 onClick={e => {
                   this.props.votePost(post.id, e.target.value)
                 }}
                 value='upVote'
               >
                 upVote
-              </Button>
+              </Button>{' '}
               <Button
-                bsSize='small'
+                bsSize='xsmall'
                 onClick={e => {
                   this.props.votePost(post.id, e.target.value)
                 }}
@@ -68,8 +80,8 @@ class PostDetail extends Component {
               >
                 downVote
               </Button>
-            </ButtonToolbar>
-            <CommentForm parentId={this.props.match.params.id} />
+            </div>
+            <CommentAdd parentId={this.props.match.params.id} />
             <PostCommentsList />
           </Grid>
         </div>
@@ -83,7 +95,7 @@ class PostDetail extends Component {
 function mapStateToProps (state, props) {
   if (props && props.match) {
     return {
-      post: state.posts.find(p => p.id == props.match.params.id)
+      post: state.posts.find(p => p.id === props.match.params.id)
     }
   } else {
     return { post: {} }
@@ -93,7 +105,8 @@ function mapStateToProps (state, props) {
 function mapDispatchToProps (dispatch) {
   return {
     votePost: (data, vote) => dispatch(votePost(data, vote)),
-    getComments: data => dispatch(getComments(data))
+    getComments: data => dispatch(getComments(data)),
+    deletePost: id => dispatch(deletePost(id))
   }
 }
 

@@ -1,22 +1,16 @@
 import React, { Component } from 'react'
-import { addComment } from '../actions/comment_actions'
-import { connect } from 'react-redux'
 import { v4 } from 'uuid'
-import {
-  Grid,
-  Button,
-  FormGroup,
-  ControlLabel,
-  FormControl
-} from 'react-bootstrap'
+import { Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 class CommentForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      author: ' ',
-      body: ' ',
-      parentId: ' '
+      id: props.comment ? props.comment.id : v4(),
+      timestamp: props.comment ? props.comment.timestamp : Date.now(),
+      author: props.comment ? props.comment.author : ' ',
+      body: props.comment ? props.comment.body : ' ',
+      parentId: props.comment ? props.comment.parentId : ' '
     }
 
     this.onChange = this.onChange.bind(this)
@@ -27,15 +21,17 @@ class CommentForm extends Component {
     e.preventDefault()
 
     const comment = {
-      id: v4(),
-      timestamp: Date.now(),
+      id: this.state.id,
+      timestamp: this.state.timestamp,
       author: this.state.author,
       body: this.state.body,
       parentId: this.props.parentId
     }
-    console.log('comment' + comment)
 
-    this.props.addComment(comment)
+    this.props.onSubmit(comment)
+
+    this.setState({ author: ' ' })
+    this.setState({ body: ' ' })
   }
 
   onChange (e) {
@@ -43,15 +39,14 @@ class CommentForm extends Component {
   }
 
   render () {
+    console.log('props' + this.props.comment)
     return (
       <div align='left'>
-        <div>
-          <h3>Add Comment</h3>
-        </div>
         <form onSubmit={this.onSubmit}>
           <FormGroup>
             <ControlLabel>Author</ControlLabel>
             <FormControl
+              autoFocus
               placeholder='author'
               name='author'
               value={this.state.author}
@@ -64,6 +59,7 @@ class CommentForm extends Component {
               componentClass='textarea'
               name='body'
               placeholder='body'
+              rows='3'
               value={this.state.body}
               onChange={this.onChange}
             />
@@ -75,9 +71,4 @@ class CommentForm extends Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    addComment: values => dispatch(addComment(values))
-  }
-}
-export default connect(null, mapDispatchToProps)(CommentForm)
+export default CommentForm

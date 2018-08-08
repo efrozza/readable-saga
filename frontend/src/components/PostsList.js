@@ -1,110 +1,104 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-  Table,
-  Button,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Grid
-} from 'react-bootstrap'
+import ReactTable from 'react-table'
 import { Link } from 'react-router-dom'
 import { votePost, deletePost } from '../actions/post_actions'
+import { Grid, Button } from 'react-bootstrap'
+import '../css/react-table.css'
+import 'react-table/react-table.css'
 import sortBy from 'sort-by'
 
 class PostsList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sort: 'title'
+      sorted: [],
+      page: 0,
+      pageSize: 5,
+      expanded: {},
+      resized: [],
+      filtered: []
     }
-  }
-
-  sortList (sort) {
-    this.setState({ sort })
   }
 
   render () {
     return (
       <Grid>
-        <h2 align='left'>All Posts</h2>
-        <p>
-          <strong>Sort By:</strong>
-          <FormGroup>
-            <FormControl
-              componentClass='select'
-              name='category'
-              onChange={event => this.sortList(event.target.value)}
-            >
-              <option value=' ' />
-              <option value='voteScore'>Vote Score</option>
-              <option value='timestamp'>Date</option>
-              <option value='title'>Title</option>
-              <option value='category'>Category</option>
-            </FormControl>
-          </FormGroup>
-        </p>
-        <Table striped bordered condensed hover>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Comment Count</th>
-              <th>Likes</th>
-              <th>Select Post</th>
-              <th>Manage</th>
-              <th>Vote</th>
-              <th>Category</th>
-            </tr>
-          </thead>
-          {this.props.posts &&
-            this.props.posts.sort(sortBy(this.state.sort)).map(post => {
-              return (
-                <tbody key={post.id}>
-                  <tr>
-                    <td>
-                      {post.title}
-                    </td>
-                    <td>
-                      {post.author}
-                    </td>
-                    <td>
-                      {post.commentCount}
-                    </td>
-                    <td>
-                      {post.voteScore}
-                    </td>
-                    <td align='center'>
-                      <Link
-                        to={{
-                          pathname: `/${post.category}/${post.id}`
-                        }}
-                      >
-                        Read
-                      </Link>
-                    </td>
-                    <td>
-                      <Link
-                        to={{
-                          pathname: `/edit/${post.category}/${post.id}`
-                        }}
-                      >
-                        Edit
-                      </Link>
+        <h3>
+          All posts: {this.props.category}
+        </h3>
+        <ReactTable
+          data={this.props.posts.sort(sortBy('-voteScore'))}
+          noDataText='There are no posts!'
+          columns={[
+            {
+              columns: [
+                {
+                  Header: 'Id',
+                  id: 'id',
+                  accessor: d => d.id,
+                  show: false
+                },
+                {
+                  Header: 'Title',
+                  id: 'title',
+                  accessor: d => d.title,
+                  width: 250
+                },
+                {
+                  Header: 'Author',
+                  id: 'author',
+                  accessor: d => d.author
+                },
+                {
+                  Header: 'Comments',
+                  id: 'commentCount',
+                  accessor: d => d.commentCount,
+                  filterable: false,
+                  width: 80
+                },
+                {
+                  Header: 'Likes',
+                  id: 'voteScore',
+                  accessor: d => d.voteScore,
+                  filterable: false,
+                  width: 80
+                },
+                {
+                  Header: 'Manage',
+                  id: 'manage',
+                  filterable: false,
+                  Cell: ({ row }) =>
+                    <div>
+                      <Button bsSize='xsmall'>
+                        <Link
+                          to={{
+                            pathname: `/edit/${row.category}/${row.id}`
+                          }}
+                        >
+                          Edit
+                        </Link>
+                      </Button>{' '}
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
-                          this.props.deletePost(post.id)
+                          this.props.deletePost(row.id)
                         }}
                       >
                         Delete
                       </Button>
-                    </td>
-                    <td>
+                    </div>
+                },
+                {
+                  Header: 'Vote',
+                  id: 'vote',
+                  filterable: false,
+                  Cell: ({ row }) =>
+                    <div>
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
-                          this.props.votePost(post.id, e.target.value)
+                          this.props.votePost(row.id, e.target.value)
                         }}
                         value='upVote'
                       >
@@ -113,21 +107,64 @@ class PostsList extends Component {
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
-                          this.props.votePost(post.id, e.target.value)
+                          this.props.votePost(row.id, e.target.value)
                         }}
                         value='downVote'
                       >
                         downVote
                       </Button>
-                    </td>
-                    <td>
-                      {post.category}
-                    </td>
-                  </tr>
-                </tbody>
-              )
-            })}
-        </Table>
+                    </div>
+                },
+                {
+                  Header: 'Select',
+                  id: 'links',
+                  filterable: false,
+                  Cell: ({ row }) =>
+                    <div>
+                      <Button bsSize='xsmall'>
+                        <Link
+                          to={{
+                            pathname: `/${row.category}/${row.id}`
+                          }}
+                        >
+                          Read
+                        </Link>
+                      </Button>
+                    </div>
+                },
+                {
+                  Header: 'Category',
+                  id: 'category',
+                  accessor: d => d.category
+                }
+              ]
+            }
+          ]}
+          defaultSorted={[
+            {
+              id: 'voteScore',
+              desc: true
+            }
+          ]}
+          filterable
+          defaultPageSize={5}
+          className='-striped -highlight'
+          // Alteram o state
+          sorted={this.state.sorted}
+          page={this.state.page}
+          pageSize={this.state.pageSize}
+          expanded={this.state.expanded}
+          resized={this.state.resized}
+          filtered={this.state.filtered}
+          // Eventos chamados para cada alteração na tabela
+          onSortedChange={sorted => this.setState({ sorted })}
+          onPageChange={page => this.setState({ page })}
+          onPageSizeChange={(pageSize, page) =>
+            this.setState({ page, pageSize })}
+          onExpandedChange={expanded => this.setState({ expanded })}
+          onResizedChange={resized => this.setState({ resized })}
+          onFilteredChange={filtered => this.setState({ filtered })}
+        />
       </Grid>
     )
   }
@@ -136,7 +173,8 @@ class PostsList extends Component {
 function mapStateToProps (state, props) {
   if (props && props.match) {
     return {
-      posts: state.posts.filter(p => p.category == props.match.params.category)
+      posts: state.posts.filter(p => p.category == props.match.params.category),
+      category: props.match.params.category
     }
   } else {
     return { posts: state.posts }

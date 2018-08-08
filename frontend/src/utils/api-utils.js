@@ -1,6 +1,6 @@
 const api = 'http://localhost:3001'
 
-// Generate a unique token
+// Gera o token para acesso a api
 let token = localStorage.token
 if (!token) token = localStorage.token = Math.random().toString(36).substr(-8)
 
@@ -9,8 +9,13 @@ const headers = {
   Authorization: token
 }
 
+/*
+
+---- POST ----
+
+*/
+
 export const addPost = post => {
-  console.log('entrou na api utils ' + post.id, post.title)
   return fetch(`${api}/posts`, {
     method: 'POST',
     headers: {
@@ -67,18 +72,28 @@ export const votePost = (id, vote) =>
     body: JSON.stringify({ option: vote })
   }).then(res => res.json())
 
-export const getAllComments = idPost =>
-  fetch(`${api}/posts/${idPost}/comments`, { method: 'GET', headers })
-    .then(res => res.json())
-    .then(data => {
-      console.log('retorno api comments ' + data + idPost)
-      return data
-    })
+/*
+
+---- COMMENTS ----
+
+*/
 
 export const addComment = comment => {
   console.log('entrou na api utils ' + comment)
   return fetch(`${api}/comments`, {
     method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(comment)
+  }).then(res => res.json())
+}
+
+export const editComment = (id, comment) => {
+  console.log('entrou na api utils comment ' + id, comment)
+  return fetch(`${api}/comments/${id}`, {
+    method: 'PUT',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
@@ -97,6 +112,14 @@ export const deleteComment = id => {
   }).then(res => res.json())
 }
 
+export const getAllComments = idPost =>
+  fetch(`${api}/posts/${idPost}/comments`, { method: 'GET', headers })
+    .then(res => res.json())
+    .then(data => {
+      console.log('retorno api comments ' + data + idPost)
+      return data
+    })
+
 export const voteComment = (id, vote) =>
   fetch(`${api}/comments/${id}`, {
     method: 'POST',
@@ -106,6 +129,12 @@ export const voteComment = (id, vote) =>
     },
     body: JSON.stringify({ option: vote })
   }).then(res => res.json())
+
+/*
+
+---- CATEGORY ----
+
+*/
 
 export const getAllCategories = () =>
   fetch(`${api}/categories`, { headers })

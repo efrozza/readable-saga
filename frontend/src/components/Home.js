@@ -17,12 +17,13 @@ class Home extends Component {
       <div>
         <Grid>
           <PageHeader>
-            Project Readable - Udacity React/Redux{' '}
-            <small>- Autor: Everton Frozza</small>
+            Readable project - Udacity React/Redux{' '}
+            <small>- Author: Everton Frozza</small>
           </PageHeader>
         </Grid>
         <Grid>
           <div>
+            <h3>Select category of posts</h3>
             {this.props.categories &&
               this.props.categories.map(categoria => {
                 return (
@@ -34,6 +35,7 @@ class Home extends Component {
               })}
           </div>
         </Grid>
+
         <PostsList />
       </div>
     )
