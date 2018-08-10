@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ReactTable from 'react-table'
 import { Link } from 'react-router-dom'
+import { Grid, Label, Button } from 'react-bootstrap'
 import { votePost, deletePost } from '../actions/post_actions'
-import { Grid, Button } from 'react-bootstrap'
+import Categories from './Categories'
 import '../css/react-table.css'
 import 'react-table/react-table.css'
-import sortBy from 'sort-by'
 
 class PostsList extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      // estados da lista react-table
       sorted: [],
       page: 0,
       pageSize: 5,
@@ -24,11 +25,14 @@ class PostsList extends Component {
   render () {
     return (
       <Grid>
+        <h3>Select category</h3>
+        <Categories />
         <h3>
-          All posts: {this.props.category}
+          All posts: <Label bsStyle='info'>{this.props.category}</Label>
         </h3>
+
         <ReactTable
-          data={this.props.posts.sort(sortBy('-voteScore'))}
+          data={this.props.posts}
           noDataText='There are no posts!'
           columns={[
             {
@@ -58,7 +62,7 @@ class PostsList extends Component {
                   width: 80
                 },
                 {
-                  Header: 'Likes',
+                  Header: 'voteScore',
                   id: 'voteScore',
                   accessor: d => d.voteScore,
                   filterable: false,
@@ -140,12 +144,7 @@ class PostsList extends Component {
               ]
             }
           ]}
-          defaultSorted={[
-            {
-              id: 'voteScore',
-              desc: true
-            }
-          ]}
+          defaultSorted={[{ id: 'author', desc: true }]}
           filterable
           defaultPageSize={5}
           className='-striped -highlight'
@@ -173,7 +172,9 @@ class PostsList extends Component {
 function mapStateToProps (state, props) {
   if (props && props.match) {
     return {
-      posts: state.posts.filter(p => p.category == props.match.params.category),
+      posts: state.posts.filter(
+        p => p.category === props.match.params.category
+      ),
       category: props.match.params.category
     }
   } else {

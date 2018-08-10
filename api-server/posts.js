@@ -3,7 +3,7 @@ const clone = require('clone')
 let db = {}
 
 const defaultData = {
-  '8xf0y6ziyjabvozdd253nd': {
+  "8xf0y6ziyjabvozdd253nd": {
     id: '8xf0y6ziyjabvozdd253nd',
     timestamp: 1467166872634,
     title: 'Udacity is the best place to learn React',
@@ -14,7 +14,7 @@ const defaultData = {
     deleted: false,
     commentCount: 2
   },
-  '6ni6ok3ym7mf1p33lnez': {
+  "6ni6ok3ym7mf1p33lnez": {
     id: '6ni6ok3ym7mf1p33lnez',
     timestamp: 1468479767190,
     title: 'Learn Redux in 10 minutes!',
@@ -36,25 +36,27 @@ function getData (token) {
 }
 
 function getByCategory (token, category) {
-  return new Promise(res => {
+  return new Promise((res) => {
     let posts = getData(token)
     let keys = Object.keys(posts)
-    let filtered_keys = keys.filter(
-      key => posts[key].category === category && !posts[key].deleted
-    )
+    let filtered_keys = keys.filter(key => posts[key].category === category && !posts[key].deleted)
     res(filtered_keys.map(key => posts[key]))
   })
 }
 
 function get (token, id) {
-  return new Promise(res => {
+  return new Promise((res) => {
     const posts = getData(token)
-    res(posts[id].deleted ? {} : posts[id])
+    res(
+      posts[id].deleted
+        ? {}
+        : posts[id]
+    )
   })
 }
 
 function getAll (token) {
-  return new Promise(res => {
+  return new Promise((res) => {
     const posts = getData(token)
     let keys = Object.keys(posts)
     let filtered_keys = keys.filter(key => !posts[key].deleted)
@@ -63,12 +65,7 @@ function getAll (token) {
 }
 
 function add (token, post) {
-  console.log(
-    'entrou na função de add post ' + 'token ' + token + post.id,
-    post.category,
-    post.title
-  )
-  return new Promise(res => {
+  return new Promise((res) => {
     let posts = getData(token)
 
     posts[post.id] = {
@@ -84,48 +81,46 @@ function add (token, post) {
     }
 
     res(posts[post.id])
-    console.log('retorno da add ' + posts[post.id].body)
   })
 }
 
 function vote (token, id, option) {
-  return new Promise(res => {
+  return new Promise((res) => {
     let posts = getData(token)
     post = posts[id]
-    switch (option) {
-      case 'upVote':
-        post.voteScore = post.voteScore + 1
-        break
-      case 'downVote':
-        post.voteScore = post.voteScore - 1
-        break
-      default:
-        console.log(`posts.vote received incorrect parameter: ${option}`)
+    switch(option) {
+        case "upVote":
+            post.voteScore = post.voteScore + 1
+            break
+        case "downVote":
+            post.voteScore = post.voteScore - 1
+            break
+        default:
+            console.log(`posts.vote received incorrect parameter: ${option}`)
     }
     res(post)
   })
 }
 
 function disable (token, id) {
-  return new Promise(res => {
-    let posts = getData(token)
-    posts[id].deleted = true
-    res(posts[id])
-  })
+    return new Promise((res) => {
+      let posts = getData(token)
+      posts[id].deleted = true
+      res(posts[id])
+    })
 }
 
 function edit (token, id, post) {
-  console.log('entrou no edit ' + id + post)
-  return new Promise(res => {
-    let posts = getData(token)
-    for (prop in post) {
-      posts[id][prop] = post[prop]
-    }
-    res(posts[id])
-  })
+    return new Promise((res) => {
+        let posts = getData(token)
+        for (prop in post) {
+            posts[id][prop] = post[prop]
+        }
+        res(posts[id])
+    })
 }
 
-function incrementCommentCounter (token, id, count) {
+function incrementCommentCounter(token, id, count) {
   const data = getData(token)
   if (data[id]) {
     data[id].commentCount += count
@@ -134,6 +129,7 @@ function incrementCommentCounter (token, id, count) {
 
 module.exports = {
   get,
+  getAll,
   getByCategory,
   add,
   vote,

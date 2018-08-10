@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Badge } from 'react-bootstrap'
 
-export default class PostScore extends Component {
-  render () {
-    return (
-      <Badge>
-        votes: {this.props.voteScore}
-      </Badge>
-    )
-  }
+const PostScore = ({ voteScore }) => {
+  return (
+    <Badge>
+      votes: {voteScore}
+    </Badge>
+  )
 }
+
+export default PostScore

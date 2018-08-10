@@ -27,7 +27,6 @@ export const addPost = post => {
 }
 
 export const editPost = (id, post) => {
-  console.log('entrou na api utils ' + id, post)
   return fetch(`${api}/posts/${id}`, {
     method: 'PUT',
     headers: {
@@ -79,7 +78,6 @@ export const votePost = (id, vote) =>
 */
 
 export const addComment = comment => {
-  console.log('entrou na api utils ' + comment)
   return fetch(`${api}/comments`, {
     method: 'POST',
     headers: {
@@ -91,7 +89,6 @@ export const addComment = comment => {
 }
 
 export const editComment = (id, comment) => {
-  console.log('entrou na api utils comment ' + id, comment)
   return fetch(`${api}/comments/${id}`, {
     method: 'PUT',
     headers: {
@@ -116,7 +113,6 @@ export const getAllComments = idPost =>
   fetch(`${api}/posts/${idPost}/comments`, { method: 'GET', headers })
     .then(res => res.json())
     .then(data => {
-      console.log('retorno api comments ' + data + idPost)
       return data
     })
 

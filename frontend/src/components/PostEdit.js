@@ -10,7 +10,7 @@ class PostEdit extends Component {
         <PostForm
           post={this.props.post}
           onSubmit={post => {
-            this.props.dispatch(editPost(post.id, post))
+            this.props.editPost(post.id, post)
             this.props.history.push('/')
           }}
         />
@@ -29,4 +29,10 @@ function mapStateToProps (state, props) {
   }
 }
 
-export default connect(mapStateToProps)(PostEdit)
+function mapDispatchToProps (dispatch) {
+  return {
+    editPost: (postId, post) => dispatch(editPost(postId, post))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostEdit)

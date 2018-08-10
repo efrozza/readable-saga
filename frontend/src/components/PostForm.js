@@ -7,7 +7,7 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
-  HelpBlock,
+  Alert,
 } from 'react-bootstrap';
 
 class PostForm extends Component {
@@ -20,28 +20,32 @@ class PostForm extends Component {
       author: props.post ? props.post.author : '',
       category: props.post ? props.post.category : '',
       body: props.post ? props.post.body : '',
+      erro: '',
     };
   }
 
-  validationForm = field => {
-    const length = field.length;
-    if (length > 5) return 'success';
-    else if (length > 2) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
-  };
-
   onSubmit = e => {
     e.preventDefault();
-    const post = {
-      id: this.state.id,
-      timestamp: this.state.timestamp,
-      title: this.state.title,
-      author: this.state.author,
-      category: this.state.category,
-      body: this.state.body,
-    };
-    this.props.onSubmit(post);
+
+    if (
+      !this.state.title ||
+      !this.state.author ||
+      !this.state.category ||
+      !this.state.body
+    ) {
+      this.setState(() => ({ erro: 'Please enter all data!' }));
+    } else {
+      const post = {
+        id: this.state.id,
+        timestamp: this.state.timestamp,
+        title: this.state.title,
+        author: this.state.author,
+        category: this.state.category,
+        body: this.state.body,
+      };
+      this.setState(() => ({ erro: '' }));
+      this.props.onSubmit(post);
+    }
   };
 
   onChange = e => {
@@ -51,11 +55,17 @@ class PostForm extends Component {
   render() {
     return (
       <Grid>
+        {this.state.erro &&
+          <p>
+            <Alert bsStyle="danger">
+              <strong>Post not added!</strong> {this.state.erro}
+            </Alert>
+          </p>}
         <div>
           <h3>Add a post:</h3>
         </div>
         <form onSubmit={this.onSubmit}>
-          <FormGroup validationState={this.validationForm(this.state.title)}>
+          <FormGroup>
             <ControlLabel>Title</ControlLabel>
             <FormControl
               placeholder="type title"
@@ -65,8 +75,6 @@ class PostForm extends Component {
               value={this.state.title}
               onChange={this.onChange}
             />
-            <FormControl.Feedback />
-            <HelpBlock>Validation is based on string length.</HelpBlock>
           </FormGroup>
           <FormGroup>
             <ControlLabel>Author</ControlLabel>

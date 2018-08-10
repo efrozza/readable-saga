@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Panel, Button, ButtonToolbar } from 'react-bootstrap'
+import { Grid, Panel, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { votePost, deletePost } from '../actions/post_actions'
@@ -9,6 +9,7 @@ import PostCommentsList from './PostCommentsList'
 import PostScore from './PostScore'
 import CommentAdd from './CommentAdd'
 import Page404 from './Page404'
+import Categories from './Categories'
 
 class PostDetail extends Component {
   componentDidMount () {
@@ -18,73 +19,71 @@ class PostDetail extends Component {
   render () {
     const post = this.props.post
 
-    if (post != undefined) {
+    if (post !== undefined) {
       return (
-        <div>
-          <Grid>
-            <div>
-              <h3>Post Detail</h3>
-            </div>
-            <Panel bsStyle='primary'>
-              <Panel.Heading>
-                <Panel.Title componentClass='h3'>
-                  {moment(post.timestamp).calendar()} - {post.title} -{' '}
-                  <PostScore voteScore={post.voteScore} />
-                </Panel.Title>
-              </Panel.Heading>
-              <Panel.Body>
-                <p>
-                  {post.body}
-                </p>
-                <p>
-                  <strong>Author: </strong>
-                  {post.author}
-                </p>
-              </Panel.Body>
-            </Panel>
+        <Grid>
+          <Categories />
+          <div>
+            <h3>Post Detail</h3>
+          </div>
+          <Panel bsStyle='primary'>
+            <Panel.Heading>
+              <Panel.Title componentClass='h3'>
+                {moment(post.timestamp).calendar()} - {post.title} -{' '}
+                <PostScore voteScore={post.voteScore} />
+              </Panel.Title>
+            </Panel.Heading>
+            <Panel.Body>
+              <p>
+                {post.body}
+              </p>
+              <br />
+              <strong>Author: </strong>
+              {post.author}
+            </Panel.Body>
+          </Panel>
 
-            <div>
-              <Button bsSize='xsmall'>
-                <Link
-                  to={{
-                    pathname: `/edit/${post.category}/${post.id}`
-                  }}
-                >
-                  Edit
-                </Link>
-              </Button>{' '}
-              <Button
-                bsSize='xsmall'
-                onClick={e => {
-                  this.props.deletePost(post.id)
-                  this.props.history.push('/')
+          <div>
+            <Button bsSize='xsmall'>
+              <Link
+                to={{
+                  pathname: `/edit/${post.category}/${post.id}`
                 }}
               >
-                Delete
-              </Button>{' '}
-              <Button
-                bsSize='xsmall'
-                onClick={e => {
-                  this.props.votePost(post.id, e.target.value)
-                }}
-                value='upVote'
-              >
-                upVote
-              </Button>{' '}
-              <Button
-                bsSize='xsmall'
-                onClick={e => {
-                  this.props.votePost(post.id, e.target.value)
-                }}
-                value='downVote'
-              >
-                downVote
-              </Button>
-            </div>
-            <CommentAdd parentId={this.props.match.params.id} />
-            <PostCommentsList />
-          </Grid>
-        </div>
+                Edit
+              </Link>
+            </Button>{' '}
+            <Button
+              bsSize='xsmall'
+              onClick={e => {
+                this.props.deletePost(post.id)
+                this.props.history.push('/')
+              }}
+            >
+              Delete
+            </Button>{' '}
+            <Button
+              bsSize='xsmall'
+              onClick={e => {
+                this.props.votePost(post.id, e.target.value)
+              }}
+              value='upVote'
+            >
+              upVote
+            </Button>{' '}
+            <Button
+              bsSize='xsmall'
+              onClick={e => {
+                this.props.votePost(post.id, e.target.value)
+              }}
+              value='downVote'
+            >
+              downVote
+            </Button>
+          </div>
+          <CommentAdd parentId={this.props.match.params.id} />
+          <PostCommentsList />
+        </Grid>
       )
     } else {
       return <Page404 />

@@ -19,7 +19,6 @@ export function addComment (comment) {
 }
 
 export function deleteComment (id, idPost) {
-  console.log('entrou na action deleteComment' + id)
   return dispatch =>
     ReadAPI.deleteComment(id)
       .then(comment => dispatch(getComments(idPost)))
@@ -27,7 +26,6 @@ export function deleteComment (id, idPost) {
 }
 
 export function editComment (id, comment) {
-  console.log('entrou na action editcomment' + comment)
   return dispatch =>
     ReadAPI.editComment(id, comment)
       .then(newComment =>
@@ -52,7 +50,6 @@ export function getComments (idPost) {
 }
 
 export function voteComment (id, vote) {
-  console.log('entrou na action voteComment' + id + vote)
   return dispatch =>
     ReadAPI.voteComment(id, vote)
       .then(comment =>

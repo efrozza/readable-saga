@@ -5,14 +5,13 @@ import { editComment } from '../actions/comment_actions'
 
 class CommentEdit extends Component {
   render () {
-    console.log('entrou no comment edit' + this.props.comment)
     return (
       <div>
-        <h3>Edit Comment</h3>
+        {/* acessa formulário genérico para inclusão e edição dos comentários */}
         <CommentForm
           comment={this.props.comment}
           onSubmit={comment => {
-            this.props.dispatch(editComment(comment.id, comment))
+            this.props.editComment(comment.id, comment)
           }}
         />
       </div>
@@ -20,4 +19,11 @@ class CommentEdit extends Component {
   }
 }
 
-export default connect()(CommentEdit)
+function mapDispatchToProps (dispatch) {
+  return {
+    editComment: (commentId, comment) =>
+      dispatch(editComment(commentId, comment))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CommentEdit)

@@ -5,12 +5,12 @@ import { addPost } from '../actions/post_actions'
 
 class PostAdd extends Component {
   render () {
-    console.log('entrou no post add')
     return (
       <div>
+        {/* segue o padrao de formulario generico usado nos comentarios */}
         <PostForm
           onSubmit={post => {
-            this.props.dispatch(addPost(post))
+            this.props.addPost(post)
             this.props.history.push('/')
           }}
         />
@@ -19,4 +19,10 @@ class PostAdd extends Component {
   }
 }
 
-export default connect()(PostAdd)
+function mapDispatchToProps (dispatch) {
+  return {
+    addPost: post => dispatch(addPost(post))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(PostAdd)

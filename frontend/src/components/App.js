@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import '../css/App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import PostAdd from './PostAdd'

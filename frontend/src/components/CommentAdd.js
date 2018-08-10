@@ -8,10 +8,11 @@ class CommentAdd extends Component {
     return (
       <div>
         <h3>Add Comment</h3>
+        {/* acessa formulário genérico para inclusão e edição dos comentários */}
         <CommentForm
           parentId={this.props.parentId}
           onSubmit={comment => {
-            this.props.dispatch(addComment(comment))
+            this.props.addComment(comment)
           }}
         />
       </div>
@@ -19,4 +20,10 @@ class CommentAdd extends Component {
   }
 }
 
-export default connect()(CommentAdd)
+function mapDispatchToProps (dispatch) {
+  return {
+    addComment: post => dispatch(addComment(post))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CommentAdd)

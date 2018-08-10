@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Modal } from 'react-bootstrap';
 import { voteComment, deleteComment } from '../actions/comment_actions';
 import CommentEdit from './CommentEdit';
-
-import ReactModal from 'react-modal';
 
 class PostCommentsList extends Component {
   constructor() {
@@ -13,9 +11,6 @@ class PostCommentsList extends Component {
       showModal: false,
       selectedComment: '',
     };
-
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
   handleOpenModal = comment => {
@@ -39,8 +34,8 @@ class PostCommentsList extends Component {
               <th>Author</th>
               <th>Comment</th>
               <th>Vote Score</th>
-              <th>Vote</th>
               <th>Manage</th>
+              <th>Vote</th>
             </tr>
           </thead>
           {this.props.comments.map(comment => {
@@ -55,6 +50,22 @@ class PostCommentsList extends Component {
                   </td>
                   <td>
                     {comment.voteScore}
+                  </td>
+                  <td>
+                    <Button
+                      bsSize="xsmall"
+                      onClick={e => this.handleOpenModal(comment)}
+                    >
+                      Edit
+                    </Button>{' '}
+                    <Button
+                      bsSize="xsmall"
+                      onClick={e => {
+                        this.props.deleteComment(comment.id, comment.parentId);
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </td>
                   <td>
                     <Button
@@ -76,38 +87,23 @@ class PostCommentsList extends Component {
                       downVote
                     </Button>
                   </td>
-                  <td>
-                    <Button
-                      bsSize="xsmall"
-                      onClick={e => this.handleOpenModal(comment)}
-                    >
-                      Edit
-                    </Button>{' '}
-                    <Button
-                      bsSize="xsmall"
-                      onClick={e => {
-                        this.props.deleteComment(comment.id, comment.parentId);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </td>
                 </tr>
               </tbody>
             );
           })}
         </Table>
         <div>
-          <ReactModal
-            isOpen={this.state.showModal}
-            onRequestClose={this.handleCloseModal}
-            ariaHideApp={false}
-          >
-            <CommentEdit comment={this.state.selectedComment} />
-            <p>
-              <Button onClick={this.handleCloseModal}>Fechar</Button>
-            </p>
-          </ReactModal>
+          {
+            //documentação de referencia https://react-bootstrap.github.io/components/modal/#popover
+          }
+          <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Comment</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <CommentEdit comment={this.state.selectedComment} />
+            </Modal.Body>
+          </Modal>
         </div>
       </div>
     );
