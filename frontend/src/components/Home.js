@@ -25,16 +25,12 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    posts: state.posts.sort(sortBy('-voteScore'))
-  }
-}
+const mapStateToProps = ({ posts }) => ({
+  posts: posts.sort(sortBy('-voteScore'))
+})
 
-function mapDispatchToProps (dispatch) {
-  return {
-    listPosts: data => dispatch(getPosts(data))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  listPosts: data => dispatch(getPosts(data))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

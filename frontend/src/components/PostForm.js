@@ -56,11 +56,9 @@ class PostForm extends Component {
     return (
       <Grid>
         {this.state.erro &&
-          <p>
-            <Alert bsStyle="danger">
-              <strong>Post not added!</strong> {this.state.erro}
-            </Alert>
-          </p>}
+          <Alert bsStyle="danger">
+            <strong>Post not added!</strong> {this.state.erro}
+          </Alert>}
         <div>
           <h3>Add a post:</h3>
         </div>
@@ -123,10 +121,8 @@ class PostForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    categories: state.categories,
-  };
-}
+const mapStateToProps = ({ categories }) => ({
+  categories,
+});
 
 export default connect(mapStateToProps)(PostForm);

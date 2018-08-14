@@ -9,11 +9,13 @@ class Categories extends Component {
   }
 
   render () {
+    const { categories } = this.props
+
     return (
       <div>
         <div>
-          {this.props.categories &&
-            this.props.categories.map(categoria => {
+          {categories &&
+            categories.map(categoria => {
               return (
                 <Link to={`/${categoria.name}`} key={categoria.name}>
                   {' '}{categoria.name}
@@ -27,16 +29,10 @@ class Categories extends Component {
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    categories: state.categories
-  }
-}
+const mapStateToProps = ({ categories }) => ({ categories })
 
-function mapDispatchToProps (dispatch) {
-  return {
-    listCategories: data => dispatch(getCategories(data))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  listCategories: data => dispatch(getCategories(data))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

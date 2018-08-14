@@ -19,7 +19,7 @@ class App extends Component {
             <Route exact path='/postnew' component={PostAdd} />
             <Route path='/edit/:category/:id' component={PostEdit} />
             <Route path='/:category/:id' component={PostDetail} />
-            <Route path='/:category/' component={PostsList} />
+            <Route path='/:category' component={PostsList} />
             <Route component={Page404} />
           </Switch>
         </div>

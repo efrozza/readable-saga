@@ -47,6 +47,13 @@ export const deletePost = id => {
   }).then(res => res.json())
 }
 
+export const getPostDetail = id =>
+  fetch(`${api}/posts/${id}`, { method: 'GET', headers })
+    .then(res => res.json())
+    .then(data => {
+      return data
+    })
+
 export const getAllPosts = () =>
   fetch(`${api}/posts`, { method: 'GET', headers })
     .then(res => res.json())

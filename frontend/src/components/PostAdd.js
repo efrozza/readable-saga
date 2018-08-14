@@ -4,14 +4,16 @@ import { connect } from 'react-redux'
 import { addPost } from '../actions/post_actions'
 
 class PostAdd extends Component {
+  /* segue o padrao de formulario generico usado nos comentarios */
   render () {
+    const { addPost, history } = this.props
+
     return (
       <div>
-        {/* segue o padrao de formulario generico usado nos comentarios */}
         <PostForm
           onSubmit={post => {
-            this.props.addPost(post)
-            this.props.history.push('/')
+            addPost(post)
+            history.push('/')
           }}
         />
       </div>
@@ -19,10 +21,8 @@ class PostAdd extends Component {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    addPost: post => dispatch(addPost(post))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  addPost: post => dispatch(addPost(post))
+})
 
 export default connect(null, mapDispatchToProps)(PostAdd)

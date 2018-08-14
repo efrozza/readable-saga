@@ -5,13 +5,15 @@ import { editPost } from '../actions/post_actions'
 
 class PostEdit extends Component {
   render () {
+    const { post, editPost, history } = this.props
+
     return (
       <div>
         <PostForm
-          post={this.props.post}
+          post={post}
           onSubmit={post => {
-            this.props.editPost(post.id, post)
-            this.props.history.push('/')
+            editPost(post.id, post)
+            history.push('/')
           }}
         />
       </div>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Table, Button, Modal } from 'react-bootstrap';
 import { voteComment, deleteComment } from '../actions/comment_actions';
 import CommentEdit from './CommentEdit';
+import { getPostDetail } from '../actions/post_actions';
 
 class PostCommentsList extends Component {
   constructor() {
@@ -25,9 +26,10 @@ class PostCommentsList extends Component {
   };
 
   render() {
+    const { comments, deleteComment, voteComment, getPostDetail } = this.props;
+
     return (
       <div>
-        <h3>Comments</h3>
         <Table striped bordered condensed hover responsive>
           <thead>
             <tr>
@@ -38,7 +40,7 @@ class PostCommentsList extends Component {
               <th>Vote</th>
             </tr>
           </thead>
-          {this.props.comments.map(comment => {
+          {comments.map(comment => {
             return (
               <tbody key={comment.id}>
                 <tr>
@@ -61,7 +63,8 @@ class PostCommentsList extends Component {
                     <Button
                       bsSize="xsmall"
                       onClick={e => {
-                        this.props.deleteComment(comment.id, comment.parentId);
+                        deleteComment(comment.id, comment.parentId);
+                        getPostDetail(comment.parentId);
                       }}
                     >
                       Delete
@@ -71,7 +74,7 @@ class PostCommentsList extends Component {
                     <Button
                       bsSize="xsmall"
                       onClick={e => {
-                        this.props.voteComment(comment.id, e.target.value);
+                        voteComment(comment.id, e.target.value);
                       }}
                       value="upVote"
                     >
@@ -80,7 +83,7 @@ class PostCommentsList extends Component {
                     <Button
                       bsSize="xsmall"
                       onClick={e => {
-                        this.props.voteComment(comment.id, e.target.value);
+                        voteComment(comment.id, e.target.value);
                       }}
                       value="downVote"
                     >
@@ -110,17 +113,14 @@ class PostCommentsList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    comments: state.comments,
-  };
-}
+const mapStateToProps = ({ comments }) => ({
+  comments,
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    voteComment: (id, vote) => dispatch(voteComment(id, vote)),
-    deleteComment: (id, parentId) => dispatch(deleteComment(id, parentId)),
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  voteComment: (id, vote) => dispatch(voteComment(id, vote)),
+  deleteComment: (id, parentId) => dispatch(deleteComment(id, parentId)),
+  getPostDetail: postId => dispatch(getPostDetail(postId)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostCommentsList);

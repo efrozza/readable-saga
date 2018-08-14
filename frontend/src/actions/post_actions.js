@@ -4,75 +4,83 @@ export const GET_POSTS_CATEGORY = 'GET_POSTS_CATEGORY'
 export const VOTE_POST = 'VOTE_POST'
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
+export const GET_POST_DETAIL = 'GET_POST_DETAIL'
 export const DELETE_POST = 'DELETE_POST'
 
-export function addPost (post) {
-  console.log('entrou na action addPost' + post.id + post.title + typeof post)
+const actionAddPost = newpost => ({
+  type: ADD_POST,
+  post: newpost
+})
+export const addPost = post => {
   return dispatch =>
     ReadAPI.addPost(post)
-      .then(newpost =>
-        dispatch({
-          type: ADD_POST,
-          post: newpost
-        })
-      )
+      .then(newpost => dispatch(actionAddPost(newpost)))
       .catch('Erro no acesso a API POSTS')
 }
 
-export function editPost (id, post) {
-  console.log('entrou na action editPost' + post.id + post.title + typeof post)
+const actionEditPost = newpost => ({
+  type: EDIT_POST,
+  post: newpost
+})
+
+export const editPost = (id, post) => {
   return dispatch =>
     ReadAPI.editPost(id, post)
-      .then(newpost =>
-        dispatch({
-          type: EDIT_POST,
-          post: newpost
-        })
-      )
+      .then(newpost => dispatch(actionEditPost(newpost)))
       .catch('Erro no acesso a API EDIT POSTS')
 }
 
-export function deletePost (id) {
-  console.log('entrou na action deletePost' + id)
+export const deletePost = id => {
   return dispatch =>
     ReadAPI.deletePost(id)
       .then(post => dispatch(getPosts()))
       .catch('Erro no acesso a API DELETE POST')
 }
 
-export function getPosts () {
+const actionGetPostDetail = post => ({
+  type: GET_POST_DETAIL,
+  post: post
+})
+
+export const getPostDetail = id => {
+  return dispatch =>
+    ReadAPI.getPostDetail(id)
+      .then(post => dispatch(actionGetPostDetail(post)))
+      .catch('Erro no acesso a API POSTS')
+}
+
+const actionGetPosts = post => ({
+  type: GET_POSTS,
+  posts: post
+})
+
+export const getPosts = () => {
   return dispatch =>
     ReadAPI.getAllPosts()
-      .then(post =>
-        dispatch({
-          type: GET_POSTS,
-          posts: post
-        })
-      )
+      .then(post => dispatch(actionGetPosts(post)))
       .catch('Erro no acesso a API POSTS')
 }
 
-export function listPostsCategory (category) {
+const actionListPostsCategory = post => ({
+  type: GET_POSTS_CATEGORY,
+  posts: post
+})
+
+export const listPostsCategory = category => {
   return dispatch =>
     ReadAPI.getAllPostsCategory(category)
-      .then(post =>
-        dispatch({
-          type: GET_POSTS_CATEGORY,
-          posts: post
-        })
-      )
+      .then(post => dispatch(actionListPostsCategory(post)))
       .catch('Erro no acesso a API POSTS')
 }
 
-export function votePost (id, vote) {
-  console.log('entrou na action votePost' + id + vote)
+const actionVotePost = post => ({
+  type: VOTE_POST,
+  post: post
+})
+
+export const votePost = (id, vote) => {
   return dispatch =>
     ReadAPI.votePost(id, vote)
-      .then(post =>
-        dispatch({
-          type: VOTE_POST,
-          post: post
-        })
-      )
+      .then(post => dispatch(actionVotePost(post)))
       .catch('Erro no acesso a API POSTS')
 }

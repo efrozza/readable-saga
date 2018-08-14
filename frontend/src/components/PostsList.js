@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import ReactTable from 'react-table'
 import { Link } from 'react-router-dom'
 import { Grid, Label, Button } from 'react-bootstrap'
-import { votePost, deletePost } from '../actions/post_actions'
+import { votePost, deletePost, getPosts } from '../actions/post_actions'
+
 import Categories from './Categories'
 import '../css/react-table.css'
 import 'react-table/react-table.css'
@@ -22,18 +23,24 @@ class PostsList extends Component {
     }
   }
 
+  componentDidMount () {
+    if (this.props.posts === '' || this.props.posts == null) {
+      this.props.getPosts()
+    }
+  }
+
   render () {
+    const { posts, category, deletePost, votePost } = this.props
+
     return (
       <Grid>
         <h3>Select category</h3>
         <Categories />
         <h3>
-          All posts: <Label bsStyle='info'>{this.props.category}</Label>
+          All posts: <Label bsStyle='info'>{category}</Label>
         </h3>
-
         <ReactTable
-          data={this.props.posts}
-          noDataText='There are no posts!'
+          data={posts}
           columns={[
             {
               columns: [
@@ -86,7 +93,7 @@ class PostsList extends Component {
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
-                          this.props.deletePost(row.id)
+                          deletePost(row.id)
                         }}
                       >
                         Delete
@@ -102,7 +109,7 @@ class PostsList extends Component {
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
-                          this.props.votePost(row.id, e.target.value)
+                          votePost(row.id, e.target.value)
                         }}
                         value='upVote'
                       >
@@ -111,7 +118,7 @@ class PostsList extends Component {
                       <Button
                         bsSize='xsmall'
                         onClick={e => {
-                          this.props.votePost(row.id, e.target.value)
+                          votePost(row.id, e.target.value)
                         }}
                         value='downVote'
                       >
@@ -169,24 +176,19 @@ class PostsList extends Component {
   }
 }
 
-function mapStateToProps (state, props) {
-  if (props && props.match) {
-    return {
-      posts: state.posts.filter(
-        p => p.category === props.match.params.category
-      ),
+const mapStateToProps = ({ posts }, props) => {
+  return props && props.match
+    ? {
+      posts: posts.filter(p => p.category === props.match.params.category),
       category: props.match.params.category
     }
-  } else {
-    return { posts: state.posts }
-  }
+    : { posts: posts }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    votePost: (data, vote) => dispatch(votePost(data, vote)),
-    deletePost: id => dispatch(deletePost(id))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  votePost: (data, vote) => dispatch(votePost(data, vote)),
+  deletePost: id => dispatch(deletePost(id)),
+  getPosts: data => dispatch(getPosts(data))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
