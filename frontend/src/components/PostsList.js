@@ -24,7 +24,7 @@ class PostsList extends Component {
   }
 
   componentDidMount () {
-    if (this.props.posts === '' || this.props.posts == null) {
+    if (this.props.posts.length < 1 || this.props.posts === '') {
       this.props.getPosts()
     }
   }
@@ -188,7 +188,7 @@ const mapStateToProps = ({ posts }, props) => {
 const mapDispatchToProps = dispatch => ({
   votePost: (data, vote) => dispatch(votePost(data, vote)),
   deletePost: id => dispatch(deletePost(id)),
-  getPosts: data => dispatch(getPosts(data))
+  getPosts: () => dispatch(getPosts())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)
