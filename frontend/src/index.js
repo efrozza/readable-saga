@@ -7,7 +7,7 @@ import reducer from './reducers'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
-import { helloSaga } from './sagas/sagas'
+import rootSaga from './sagas/sagas'
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -30,7 +30,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(sagaMiddleware, thunk, logger))
 )
 
-sagaMiddleware.run(helloSaga)
+sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <Provider store={store}>
