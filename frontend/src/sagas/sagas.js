@@ -6,9 +6,8 @@ const categories = () => ReadAPI.getAllCategories()
 
 export function * getCategoriesSaga () {
   try {
-    console.log('entrou aqui')
     const result = yield call(categories)
-    yield put({ type: GET_ALL_CATEGORIES, categories: result })
+    yield put({ type: 'GET_ALL_CATEGORIES_OK', categories: result })
   } catch (e) {
     console.log(e)
   }
